@@ -1,14 +1,18 @@
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import { useAuth } from './hooks/useAuth';
-import { usePlayerStore } from './store/playerStore';
-import { Suspense, lazy, useEffect } from 'react';
-import { Loader2 } from 'lucide-react';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
+import { useAuth } from "./hooks/useAuth";
+import { usePlayerStore } from "./store/playerStore";
+import { Suspense, lazy, useEffect } from "react";
+import { Loader2 } from "lucide-react";
 
 // Lazy load pages for better performance
-const HomePage = lazy(() => import('./components/HomePage'));
-const MatchPage = lazy(() => import('./pages/MatchPage'));
-const VsBotPage = lazy(() => import('./pages/VsBotPage'));
-const AccountPage = lazy(() => import('./pages/AccountPage'));
+const HomePage = lazy(() => import("./components/HomePage"));
+const MatchPage = lazy(() => import("./pages/MatchPage"));
+const VsBotPage = lazy(() => import("./pages/VsBotPage"));
+const AccountPage = lazy(() => import("./pages/AccountPage"));
 
 // Loading component
 const LoadingSpinner = () => (
@@ -35,9 +39,9 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <HomePage onStartGame={() => {}} />
-      </Suspense>
+      // <Suspense fallback={<LoadingSpinner />}>
+      <HomePage onStartGame={() => {}} />
+      // </Suspense>
     ),
   },
   {
@@ -85,13 +89,6 @@ const router = createBrowserRouter([
 ]);
 
 const AppRouter = () => {
-  const { initializeGuestPlayer } = usePlayerStore();
-
-  // Initialize guest player when the app loads
-  useEffect(() => {
-    initializeGuestPlayer();
-  }, [initializeGuestPlayer]);
-
   return <RouterProvider router={router} />;
 };
 
