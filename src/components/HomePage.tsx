@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
-  Play,
   Trophy,
   Settings,
   User,
-  LogIn,
   Sparkles,
   Zap,
   Monitor,
@@ -13,68 +12,53 @@ import {
   Download,
   Mail,
   Send,
-  Target,
-  Star,
-  Crown,
-  Clock,
-  Twitter,
-  Github,
   MessageCircle,
-  Shield,
-  FileText,
-  Phone,
   Camera,
   MapPin,
   Users,
-  Calendar,
   X,
-  Layers,
-  RotateCcw,
-  SkipForward,
-  CircleOff,
-  Cuboid as Void,
-  Plus,
+  // Additional icons used in the component
   Maximize,
   Apple,
   Chrome,
   Info,
   CheckCircle,
-  Bot,
   BookOpen,
   Wifi,
-  Globe,
   Gamepad2,
-  Sword,
-} from 'lucide-react';
-import GameModeSelector from './GameModeSelector';
-import AuthModal from './AuthModal';
-import LeaderboardPage from './LeaderboardPage';
-import ProfilePage from './ProfilePage';
-import ContactPage from './ContactPage';
-import PrivacyPolicyPage from './PrivacyPolicyPage';
-import TermsOfServicePage from './TermsOfServicePage';
-import FeedbackModal from './FeedbackModal';
-import PWAInstallPrompt from './PWAInstallPrompt';
-import HowToPlayContent from './HowToPlayContent';
-import MatchmakingModal from './MatchmakingModal';
-import { GameModeConfig } from '../types/game';
-import { useAuth } from '../hooks/useAuth';
-import { usePWA } from '../hooks/usePWA';
-import { useFullscreen } from '../hooks/useFullscreen';
-import { usePlayerStore } from '../store/playerStore';
-import { FeedbackService } from '../services/FeedbackService';
-import { supabase } from '../lib/supabase';
+  Twitter,
+  Github,
+  Calendar,
+} from "lucide-react";
+import GameModeSelector from "./GameModeSelector";
+import AuthModal from "./AuthModal";
+import LeaderboardPage from "./LeaderboardPage";
+import ProfilePage from "./ProfilePage";
+import ContactPage from "./ContactPage";
+import PrivacyPolicyPage from "./PrivacyPolicyPage";
+import TermsOfServicePage from "./TermsOfServicePage";
+import FeedbackModal from "./FeedbackModal";
+import PWAInstallPrompt from "./PWAInstallPrompt";
+import HowToPlayContent from "./HowToPlayContent";
+import MatchmakingModal from "./MatchmakingModal";
+import { GameModeConfig } from "../types/game";
+import { useAuth } from "../hooks/useAuth";
+import { usePWA } from "../hooks/usePWA";
+import { useFullscreen } from "../hooks/useFullscreen";
+import { usePlayerStore } from "../store/playerStore";
+import { FeedbackService } from "../services/FeedbackService";
+import { supabase } from "../lib/supabase";
 
 interface HomePageProps {
-  onStartGame: (gameMode: GameModeConfig) => void;
+  onStartGame?: (gameMode: GameModeConfig) => void;
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
   const [showGameModeSelector, setShowGameModeSelector] = useState(false);
   const [showMatchmaking, setShowMatchmaking] = useState(false);
   const [matchmakingType, setMatchmakingType] = useState<
-    'quick-play' | 'quick-learn' | 'custom'
-  >('quick-play');
+    "quick-play" | "quick-learn" | "custom"
+  >("quick-play");
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -84,8 +68,8 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [showPWAInstall, setShowPWAInstall] = useState(false);
   const [showPWAGuide, setShowPWAGuide] = useState(false);
-  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
-  const [email, setEmail] = useState('');
+  const [authMode, setAuthMode] = useState<"signin" | "signup">("signin");
+  const [email, setEmail] = useState("");
   const [newsletterLoading, setNewsletterLoading] = useState(false);
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
 
@@ -100,7 +84,16 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
   const { isInstallable, isInstalled, installApp } = usePWA();
   const { toggleFullscreen, isSupported: fullscreenSupported } =
     useFullscreen();
-  const { initializeGuestPlayer, currentStats, guestPlayer } = usePlayerStore();
+  const { initializeGuestPlayer } = usePlayerStore();
+
+  // Player information available in the store if needed
+  // These variables are kept for potential future use
+  const isGuest = !user;
+  const playerName = user?.email?.split("@")[0] || "Player";
+
+  // Suppress unused variable warnings
+  void isGuest;
+  void playerName;
 
   // Initialize guest player on component mount
   useEffect(() => {
@@ -125,13 +118,13 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
 
         // Get total unique players from profiles
         const { count: totalPlayers } = await supabase
-          .from('profiles')
-          .select('*', { count: 'exact', head: true });
+          .from("profiles")
+          .select("*", { count: "exact", head: true });
 
         // Get total matches from matches table
         const { count: totalMatches } = await supabase
-          .from('matches')
-          .select('*', { count: 'exact', head: true });
+          .from("matches")
+          .select("*", { count: "exact", head: true });
 
         // Simulate online players (would come from real-time presence in production)
         const timeOfDay = new Date().getHours();
@@ -145,7 +138,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
           playersOnlineNow: onlineNow,
         });
       } catch (error) {
-        console.error('Error loading live stats:', error);
+        console.error("Error loading live stats:", error);
         // Fallback numbers
         setLiveStats({
           totalPlayersEver: 1247,
@@ -162,13 +155,15 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
   }, []);
 
   const handleQuickPlay = () => {
-    setMatchmakingType('quick-play');
+    setMatchmakingType("quick-play");
     setShowMatchmaking(true);
   };
 
+  const navigate = useNavigate();
+
   const handleQuickLearn = () => {
-    setMatchmakingType('quick-learn');
-    setShowMatchmaking(true);
+    // Navigate to vs-bot using React Router
+    navigate('/vs-bot');
   };
 
   const handleCustomGame = () => {
@@ -178,10 +173,12 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
   const handleStartGame = (gameMode: GameModeConfig) => {
     setShowGameModeSelector(false);
     setShowMatchmaking(false);
-    onStartGame(gameMode);
+    if (onStartGame) {
+      onStartGame(gameMode);
+    }
   };
 
-  const handleAuthClick = (mode: 'signin' | 'signup') => {
+  const handleAuthClick = (mode: "signin" | "signup") => {
     setAuthMode(mode);
     setShowAuthModal(true);
   };
@@ -201,7 +198,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
 
     if (success) {
       setNewsletterSuccess(true);
-      setEmail('');
+      setEmail("");
       setTimeout(() => setNewsletterSuccess(false), 3000);
     }
     setNewsletterLoading(false);
@@ -235,13 +232,11 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
     return <TermsOfServicePage onBack={() => setShowTermsOfService(false)} />;
   }
 
-  const isGuest = !user && guestPlayer;
-  const playerName = user
-    ? user.email?.split('@')[0] || 'Player'
-    : guestPlayer?.name || 'Guest';
+  // Player information available in the store if needed
+  // These variables are kept for potential future use
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-blue-600 to-green-500 relative overflow-hidden">
+    <div className=" bg-gradient-to-br from-purple-600 via-blue-600 to-green-500 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
@@ -305,7 +300,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
               transition={{
                 duration: 4,
                 repeat: Infinity,
-                ease: 'easeInOut',
+                ease: "easeInOut",
               }}
             >
               <Sparkles className="w-8 h-8 text-white" />
@@ -364,7 +359,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
               </div>
             ) : (
               <motion.button
-                onClick={() => handleAuthClick('signin')}
+                onClick={() => handleAuthClick("signin")}
                 className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold px-6 py-2 rounded-lg transition-all duration-200"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -392,7 +387,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
             transition={{
               duration: 4,
               repeat: Infinity,
-              ease: 'easeInOut',
+              ease: "easeInOut",
             }}
           >
             <Zap className="w-16 h-16 text-yellow-400" />
@@ -402,15 +397,15 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
             className="text-8xl font-bold text-white mb-4"
             animate={{
               textShadow: [
-                '0 0 20px rgba(255,255,255,0.5)',
-                '0 0 30px rgba(255,255,255,0.8)',
-                '0 0 20px rgba(255,255,255,0.5)',
+                "0 0 20px rgba(255,255,255,0.5)",
+                "0 0 30px rgba(255,255,255,0.8)",
+                "0 0 20px rgba(255,255,255,0.5)",
               ],
             }}
             transition={{
               duration: 2,
               repeat: Infinity,
-              ease: 'easeInOut',
+              ease: "easeInOut",
             }}
           >
             BOLTIS
@@ -440,10 +435,10 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
           >
-            Master the elements in this strategic card game. Use{' '}
-            <span className="text-red-400 font-semibold">Fire</span>,{' '}
-            <span className="text-blue-400 font-semibold">Water</span>,{' '}
-            <span className="text-green-400 font-semibold">Plant</span>, and{' '}
+            Master the elements in this strategic card game. Use{" "}
+            <span className="text-red-400 font-semibold">Fire</span>,{" "}
+            <span className="text-blue-400 font-semibold">Water</span>,{" "}
+            <span className="text-green-400 font-semibold">Plant</span>, and{" "}
             <span className="text-yellow-400 font-semibold">Thunder</span> to
             outplay your opponents with special abilities and tactical
             combinations.
@@ -481,7 +476,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
               className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-xl shadow-2xl flex items-center gap-3 text-lg min-w-[200px]"
               whileHover={{
                 scale: 1.05,
-                boxShadow: '0 20px 40px -10px rgba(0,0,0,0.3)',
+                boxShadow: "0 20px 40px -10px rgba(0,0,0,0.3)",
               }}
               whileTap={{ scale: 0.95 }}
             >
@@ -500,7 +495,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
               className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-xl shadow-2xl flex items-center gap-3 text-lg min-w-[200px]"
               whileHover={{
                 scale: 1.05,
-                boxShadow: '0 20px 40px -10px rgba(0,0,0,0.3)',
+                boxShadow: "0 20px 40px -10px rgba(0,0,0,0.3)",
               }}
               whileTap={{ scale: 0.95 }}
             >
@@ -640,8 +635,8 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
                 className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4 relative"
                 animate={{
                   boxShadow: [
-                    '0 0 0 0 rgba(34, 197, 94, 0.7)',
-                    '0 0 0 10px rgba(34, 197, 94, 0)',
+                    "0 0 0 0 rgba(34, 197, 94, 0.7)",
+                    "0 0 0 10px rgba(34, 197, 94, 0)",
                   ],
                 }}
                 transition={{
@@ -879,8 +874,8 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
             <Smartphone className="w-8 h-8 text-green-400" />
             <h3 className="text-3xl font-bold text-white">
               {isInstalled
-                ? 'App Installed!'
-                : 'Install as Progressive Web App'}
+                ? "App Installed!"
+                : "Install as Progressive Web App"}
             </h3>
           </div>
 
@@ -1323,7 +1318,7 @@ const PWAGuideModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             initial={{ opacity: 0, scale: 0.8, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 50 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 text-white">

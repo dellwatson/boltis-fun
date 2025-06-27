@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { 
   X, 
   Clock, 
@@ -22,6 +23,7 @@ interface GameModeSelectorProps {
 }
 
 const GameModeSelector: React.FC<GameModeSelectorProps> = ({ onClose, onStartGame }) => {
+  const navigate = useNavigate();
   const [config, setConfig] = useState<GameModeConfig>({ 
     ...DEFAULT_GAME_MODE_CONFIG,
     matchDuration: 180, // 3 minutes default
@@ -38,6 +40,7 @@ const GameModeSelector: React.FC<GameModeSelectorProps> = ({ onClose, onStartGam
   const handleStartGame = () => {
     console.log('🎮 Starting game with config:', config);
     onStartGame(config);
+    navigate('/vs-bot');
   };
 
   const overlayVariants = {
