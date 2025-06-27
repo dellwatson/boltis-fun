@@ -15,6 +15,7 @@ A modern, real-time elemental card game built with React, TypeScript, and Supaba
 ## 🎯 Game Features
 
 ### Core Gameplay
+
 - **Elemental Cards**: Fire, Water, Plant, and Thunder elements with strategic advantages
 - **Special Cards**: Skip, Reverse, Stack, and Void cards with unique effects
 - **Bot AI**: Three difficulty levels (Easy, Medium, Hard) with intelligent decision-making
@@ -22,12 +23,14 @@ A modern, real-time elemental card game built with React, TypeScript, and Supaba
 - **Multiple Game Modes**: Classic, Time-bank, and Blitz modes
 
 ### Unique Mechanics (Proprietary)
+
 - **Void Card Effect**: Revolutionary mechanic where discard pile transfers to opponent
 - **Elemental Stack System**: Advanced stacking with elemental weakness interactions
 - **Bomb Cards**: Explosive special effects (coming soon)
 - **Dynamic Penalties**: Time-based penalty system with customizable rules
 
 ### Technical Features
+
 - **Offline Play**: Full gameplay without internet connection
 - **Database Integration**: Optional Supabase integration for statistics and leaderboards
 - **Responsive Design**: Optimized for desktop and mobile devices
@@ -37,24 +40,28 @@ A modern, real-time elemental card game built with React, TypeScript, and Supaba
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 - (Optional) Supabase account for database features
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/boltis.git
    cd boltis
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start development server**
+
    ```bash
    npm run dev
    ```
@@ -67,6 +74,7 @@ A modern, real-time elemental card game built with React, TypeScript, and Supaba
 ### Database Setup (Optional)
 
 Supabase is **optional** and only required for:
+
 - User accounts and authentication
 - Match history and statistics
 - Leaderboards and rankings
@@ -86,21 +94,24 @@ If you want these features:
 ## 🎲 How to Play
 
 ### Basic Rules
+
 1. **Objective**: Be the first to empty your hand or have the lowest score when time runs out
 2. **Matching**: Play cards that match the top card's element, type, or number
-3. **Special Cards**: 
+3. **Special Cards**:
    - **Skip**: Next player loses their turn
    - **Reverse**: Changes play direction
    - **Stack**: Removes matching elemental cards from discard pile and hand
    - **Void**: Transfers entire discard pile to next player (choose new color)
 
 ### Elemental Advantages
+
 - **Fire** beats **Plant**
-- **Water** beats **Fire** 
+- **Water** beats **Fire**
 - **Plant** beats **Water**
 - **Thunder** beats **Plant**
 
 ### Scoring
+
 - Number cards: Face value (1-9 points)
 - Special cards: 20 points each
 - Void cards: 50 points each
@@ -109,6 +120,7 @@ If you want these features:
 ## 🛠️ Development
 
 ### Project Structure
+
 ```
 src/
 ├── components/          # React components
@@ -123,6 +135,7 @@ supabase/
 ```
 
 ### Key Technologies
+
 - **Frontend**: React 18, TypeScript, Tailwind CSS
 - **State Management**: Zustand with subscriptions
 - **Animations**: Framer Motion
@@ -131,6 +144,7 @@ supabase/
 - **Deployment**: Netlify
 
 ### Available Scripts
+
 ```bash
 npm run dev          # Start development server
 npm run build        # Build for production
@@ -141,6 +155,7 @@ npm run lint         # Run ESLint
 ### Game Engine Architecture
 
 The game uses a sophisticated engine with:
+
 - **GameEngine**: Core game logic and state management
 - **TimerService**: Handles turn timers and time banks
 - **BotAI**: Intelligent bot decision making
@@ -149,17 +164,20 @@ The game uses a sophisticated engine with:
 ## 🎨 Customization
 
 ### Adding New Card Types
+
 1. Define the card type in `src/types/game.ts`
 2. Add logic in `src/utils/gameLogic.ts`
 3. Update the bot AI in `src/utils/botAI.ts`
 4. Create visual components in `src/components/`
 
 ### Modifying Game Rules
+
 - Edit `src/services/GameEngine.ts` for core mechanics
 - Update `src/utils/gameLogic.ts` for card interactions
 - Modify `src/types/game.ts` for configuration options
 
 ### Styling and Themes
+
 - All styles use Tailwind CSS
 - Color schemes defined in `src/types/game.ts`
 - Component styling in individual component files
@@ -167,6 +185,7 @@ The game uses a sophisticated engine with:
 ## 📊 Database Schema
 
 The application uses Supabase with the following main tables:
+
 - `profiles`: User profiles and statistics
 - `matches`: Game match records
 - `match_participants`: Player participation data
@@ -178,6 +197,7 @@ The application uses Supabase with the following main tables:
 We're actively developing real-time multiplayer capabilities! Here's what's planned:
 
 ### Planned Multiplayer Features
+
 - **Real-time Matches**: Play against friends in real-time
 - **Room System**: Create private rooms with custom rules
 - **Spectator Mode**: Watch ongoing matches
@@ -185,12 +205,14 @@ We're actively developing real-time multiplayer capabilities! Here's what's plan
 - **Cross-platform Play**: Seamless play across devices
 
 ### Technical Implementation
+
 - **WebSocket Integration**: Real-time communication via Supabase Realtime
 - **Matchmaking System**: Automatic player matching by skill level
 - **Sync Engine**: Ensures game state consistency across clients
 - **Reconnection Handling**: Graceful handling of network interruptions
 
 ### Multiplayer Documentation
+
 For detailed multiplayer implementation docs, see [MULTIPLAYER.md](docs/MULTIPLAYER.md) (coming soon)
 
 ## 🤝 Contributing
@@ -200,23 +222,27 @@ We **welcome and encourage** contributions from the community! Whether you're fi
 ### Ways to Contribute
 
 #### 🐛 Bug Fixes
+
 - Report bugs via GitHub Issues
 - Submit fixes via Pull Requests
 - Help reproduce and verify reported issues
 
 #### ✨ Feature Development
+
 - Implement new card types and effects
 - Enhance UI/UX components
 - Add new game modes
 - Improve bot AI intelligence
 
 #### 💡 Ideas & Suggestions
+
 - Propose new game mechanics
 - Suggest UI/UX improvements
 - Share balance and gameplay ideas
 - Contribute to game design discussions
 
 #### 📚 Documentation
+
 - Improve README and guides
 - Add code comments and documentation
 - Create tutorials and examples
@@ -225,22 +251,26 @@ We **welcome and encourage** contributions from the community! Whether you're fi
 ### How to Contribute
 
 1. **Fork the repository**
+
    ```bash
    git clone https://github.com/yourusername/boltis.git
    cd boltis
    ```
 
 2. **Create a feature branch**
+
    ```bash
    git checkout -b feature/your-amazing-feature
    ```
 
 3. **Make your changes**
+
    - Follow existing code style and patterns
    - Add tests for new functionality
    - Update documentation as needed
 
 4. **Test your changes**
+
    ```bash
    npm run dev    # Test locally
    npm run build  # Ensure it builds
@@ -248,6 +278,7 @@ We **welcome and encourage** contributions from the community! Whether you're fi
    ```
 
 5. **Commit and push**
+
    ```bash
    git commit -m "Add: your amazing feature description"
    git push origin feature/your-amazing-feature
@@ -261,6 +292,7 @@ We **welcome and encourage** contributions from the community! Whether you're fi
 ### Contribution Guidelines
 
 #### Code Standards
+
 - **TypeScript**: Use proper typing throughout
 - **React**: Follow React best practices and hooks patterns
 - **Tailwind**: Use utility classes consistently
@@ -268,12 +300,14 @@ We **welcome and encourage** contributions from the community! Whether you're fi
 - **Testing**: Add tests for new game mechanics
 
 #### Game Design Contributions
+
 - **Balance**: Consider impact on game balance
 - **Accessibility**: Ensure features work for all players
 - **Performance**: Maintain smooth gameplay experience
 - **Attribution**: Respect intellectual property requirements
 
 #### Pull Request Process
+
 1. Ensure your PR has a clear description
 2. Link to any relevant issues
 3. Include screenshots/videos for visual changes
@@ -282,14 +316,17 @@ We **welcome and encourage** contributions from the community! Whether you're fi
 
 ## 🏆 Contributors
 
-We recognize and appreciate all contributors to BOLTIS! 
+We recognize and appreciate all contributors to BOLTIS!
 
 ### Core Team
+
 - **[Dale Watson](https://github.com/dalevatson)** - Original Creator & Game Designer
 - **[Theras Labs, Inc](https://theras.xyz)** - Company & IP Holder
 
 ### Community Contributors
+
 <!-- This section will be automatically updated -->
+
 Thanks to all the amazing people who have contributed to BOLTIS:
 
 <!-- ALL-CONTRIBUTORS-LIST:START -->
@@ -297,69 +334,81 @@ Thanks to all the amazing people who have contributed to BOLTIS:
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ### How to Get Recognition
+
 When you contribute to BOLTIS, you'll be:
+
 - Added to our contributors list
 - Mentioned in release notes
 - Credited in the game's about section
 - Invited to our contributor Discord channel
 
-*Want to be featured here? Make your first contribution today!*
+_Want to be featured here? Make your first contribution today!_
 
 ## 📄 License & Attribution
 
 ### Open Source License
+
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ### Intellectual Property Attribution
 
-**IMPORTANT**: While this codebase is open source, certain game mechanics and concepts are proprietary intellectual property of **Theras Labs, Inc** and **Dale Watson**. 
+**IMPORTANT**: While this codebase is open source, certain game mechanics and concepts are proprietary intellectual property of **Theras Labs, Inc** and **Dale Watson**.
 
 #### Required Attribution
 
 If you use, modify, or distribute this game, you **MUST** provide visible credit for the following proprietary game mechanics:
 
 #### Proprietary Game Mechanics:
+
 1. **Void Card Effect** - The unique mechanic where playing a void card transfers the entire discard pile to the next player
-2. **Elemental Stack System** - Advanced stacking mechanics with elemental weakness interactions  
+2. **Elemental Stack System** - Advanced stacking mechanics with elemental weakness interactions
 3. **Bomb Card Effects** - Explosive special card mechanics (when implemented)
 4. **Dynamic Penalty System** - Time-based penalty mechanics
 5. **Any future community-contributed effects** - As they are added to the game
 
 #### Attribution Requirements:
+
 You must include **visible attribution** in your application that credits:
+
 - **Dale Watson** (Original Creator)
 - **Theras Labs, Inc** (Company)
 
 #### Example Attribution Text:
+
 ```
-Game mechanics including Void Card effects, Elemental Stacking, and other special 
-card interactions are proprietary intellectual property of Dale Watson and 
+Game mechanics including Void Card effects, Elemental Stacking, and other special
+card interactions are proprietary intellectual property of Dale Watson and
 Theras Labs, Inc. Used with permission.
 ```
 
 #### Where to Include Attribution:
+
 - In your application's About/Credits section
 - In the main menu or footer
 - In any documentation or promotional materials
 - In derivative works or modifications
 
 ### Commercial Use
+
 - ✅ **Allowed**: Educational use, personal projects, non-commercial distributions
 - ✅ **Allowed**: Commercial use with proper attribution
 - ❌ **Not Allowed**: Claiming ownership of proprietary game mechanics
 - ❌ **Not Allowed**: Removing or obscuring required attributions
 
 For commercial licensing or questions about intellectual property, contact:
+
 - **Email**: contact@theras.xyz
 - **Company**: Theras Labs, Inc
 
 ## 🙏 Acknowledgments
 
 ### Core Development
+
 - **Dale Watson** - Original creator and game designer
 - **Theras Labs, Inc** - Company and intellectual property holder
 
 ### Technology Stack
+
 - [React](https://reactjs.org/) - UI framework
 - [Supabase](https://supabase.com/) - Backend and database
 - [Tailwind CSS](https://tailwindcss.com/) - Styling
@@ -368,6 +417,7 @@ For commercial licensing or questions about intellectual property, contact:
 - [Netlify](https://netlify.com) - Hosting and deployment
 
 ### Community
+
 - Contributors and beta testers
 - Open source community feedback
 - Game design inspiration from classic card games
@@ -375,13 +425,14 @@ For commercial licensing or questions about intellectual property, contact:
 ## 📞 Support & Contact
 
 ### Getting Help
+
 - 🐛 **Bug Reports**: Open an issue on GitHub
 - 💡 **Feature Requests**: Use the in-game feedback system
-- 📧 **General Questions**: dale@theraslabs.com
-- 💬 **Community**: Join our Discord (coming soon)
 
 ### Business Inquiries
+
 For licensing, partnerships, or commercial use:
+
 - **Email**: contact@theras.xyz
 - **Company**: Theras Labs, Inc
 - **Website**: https://theras.xyz
@@ -390,4 +441,4 @@ For licensing, partnerships, or commercial use:
 
 **Made with ❤️ by Dale Watson and Theras Labs, Inc**
 
-*Built with [Bolt](https://bolt.new) • Powered by [Supabase](https://supabase.com) • Deployed on [Netlify](https://netlify.com)*
+_Built with [Bolt](https://bolt.new) • Powered by [Supabase](https://supabase.com) • Deployed on [Netlify](https://netlify.com)_
