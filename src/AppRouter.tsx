@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import { usePlayerStore } from "./store/playerStore";
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy } from "react";
 import { Loader2 } from "lucide-react";
 
 // Lazy load pages for better performance

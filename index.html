@@ -1,34 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#8B5CF6" />
-    <meta name="description" content="Master the elements in this strategic card game. Use Fire, Water, Plant, and Thunder to outplay your opponents." />
-    
+    <meta
+      name="description"
+      content="Master the elements in this strategic card game. Use Fire, Water, Plant, and Thunder to outplay your opponents."
+    />
+
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="BOLTIS" />
-    
+
     <!-- Prevent white background on mobile -->
     <style>
-      html, body {
+      html,
+      body {
         margin: 0;
         padding: 0;
-        background: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 50%, #10B981 100%);
+        background: linear-gradient(
+          135deg,
+          #8b5cf6 0%,
+          #3b82f6 50%,
+          #10b981 100%
+        );
         min-height: 100vh;
         overflow-x: hidden;
       }
-      
+
       /* Prevent white flash on mobile */
       #root {
         min-height: 100vh;
         background: inherit;
       }
-      
+
       /* Safe area handling for mobile */
       @supports (padding: max(0px)) {
         body {
@@ -39,23 +48,24 @@
         }
       }
     </style>
-    
+
     <title>BOLTIS - Elemental Card Game</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    
+
     <!-- PWA Service Worker Registration -->
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/sw.js")
             .then((registration) => {
-              console.log('SW registered: ', registration);
+              console.log("SW registered: ", registration);
             })
             .catch((registrationError) => {
-              console.log('SW registration failed: ', registrationError);
+              console.log("SW registration failed: ", registrationError);
             });
         });
       }
