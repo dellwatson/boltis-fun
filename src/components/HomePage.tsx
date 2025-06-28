@@ -4,12 +4,13 @@ import React, { useState, useEffect } from "react";
 declare const __APP_VERSION__: string;
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import Card from "./Card";
+import { Card as CardType } from "../types/game";
 import {
   Trophy,
   Settings,
   User,
   Sparkles,
-  Zap,
   Monitor,
   Smartphone,
   Download,
@@ -32,6 +33,7 @@ import {
   Twitter,
   Github,
   Calendar,
+  Globe,
 } from "lucide-react";
 import GameModeSelector from "./GameModeSelector";
 import AuthModal from "./AuthModal";
@@ -98,10 +100,37 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
   void isGuest;
   void playerName;
 
+  // Generate sample cards for the hero demo
+  const [heroCards, setHeroCards] = useState<CardType[]>([]);
+
   // Initialize guest player on component mount
   useEffect(() => {
     initializeGuestPlayer();
+
+    // Initialize hero cards
+    setHeroCards([
+      { id: "hero-1", element: "fire", type: "number", value: 5 },
+      { id: "hero-2", element: "water", type: "number", value: 8 },
+      { id: "hero-3", element: "plant", type: "number", value: 3 },
+      { id: "hero-4", element: "thunder", type: "number", value: 7 },
+      { id: "hero-5", element: "fire", type: "skip" },
+    ]);
   }, [initializeGuestPlayer]);
+
+  // Animate cards periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeroCards((prevCards) => {
+        const newCards = [...prevCards];
+        // Move first card to the end
+        const firstCard = newCards.shift();
+        if (firstCard) newCards.push(firstCard);
+        return newCards;
+      });
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Load live stats from database
   useEffect(() => {
@@ -235,11 +264,8 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
     return <TermsOfServicePage onBack={() => setShowTermsOfService(false)} />;
   }
 
-  // Player information available in the store if needed
-  // These variables are kept for potential future use
-
   return (
-    <div className=" bg-gradient-to-br from-purple-600 via-blue-600 to-green-500 relative overflow-hidden">
+    <div className="bg-gradient-to-br from-purple-600 via-blue-600 to-green-500 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
@@ -388,7 +414,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           {/* Game Icon */}
-          <motion.div
+          {/* <motion.div
             className="w-32 h-32 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-3xl flex items-center justify-center mx-auto mb-8 backdrop-blur-sm border border-white/20"
             animate={{
               y: [0, -10, 0],
@@ -401,7 +427,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
             }}
           >
             <Zap className="w-16 h-16 text-yellow-400" />
-          </motion.div>
+          </motion.div> */}
 
           <motion.h2
             className="text-8xl font-bold text-white mb-4"
@@ -439,20 +465,86 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
             Built with ⚡ Bolt • Designed by Bolt • Promoted under Bolt
           </motion.p> */}
 
-          <motion.p
-            className="text-xl text-white/90 mb-12 max-w-3xl mx-auto"
+          <motion.div
+            className="relative max-w-3xl mx-auto mb-12"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
           >
-            Master the elements in this strategic card game. Use{" "}
-            <span className="text-red-400 font-semibold">Fire</span>,{" "}
-            <span className="text-blue-400 font-semibold">Water</span>,{" "}
-            <span className="text-green-400 font-semibold">Plant</span>, and{" "}
-            <span className="text-yellow-400 font-semibold">Thunder</span> to
-            outplay your opponents with special abilities and tactical
-            combinations.
-          </motion.p>
+            <p className="text-xl text-white/90 mb-8">
+              Master this strategic card game like UNO card but no +4 no +2 and
+              use new innovative elemental gameplay instead . Use{" "}
+              <span className="text-red-400 font-semibold">Fire</span>,{" "}
+              <span className="text-blue-400 font-semibold">Water</span>,{" "}
+              <span className="text-green-400 font-semibold">Plant</span>, and{" "}
+              <span className="text-yellow-400 font-semibold">Thunder</span> to
+              outplay your opponents with special abilities and tactical
+              combinations.
+            </p>
+
+            {/* Interactive Card Demo */}
+            <div className="relative h-48 flex items-center justify-center">
+              {heroCards.map((card, index) => (
+                <motion.div
+                  key={card.id}
+                  className="absolute"
+                  style={{
+                    transformOrigin: "bottom center",
+                    zIndex: index,
+                  }}
+                  initial={false}
+                  animate={{
+                    x: (index - 2) * 40,
+                    y: Math.abs(index - 2) * 5,
+                    rotate: (index - 2) * 5,
+                    scale: 1 - Math.abs(index - 2) * 0.1,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20,
+                  }}
+                >
+                  <Card card={card} size="medium" onClick={() => {}} />
+                </motion.div>
+              ))}
+
+              <motion.div
+                className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm font-medium whitespace-nowrap"
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 1.2 }}
+              >
+                Basic: Match elements or numbers to play cards!
+              </motion.div>
+            </div>
+
+            {/* <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                <div className="flex items-center gap-2 text-green-400 mb-2">
+                  <Zap className="w-5 h-5" />
+                  <h4 className="font-semibold">Simple Rules</h4>
+                </div>
+                <p className="text-white/70 text-sm">Match colors or numbers to play cards. First to empty their hand wins!</p>
+              </div>
+              
+              <div className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                <div className="flex items-center gap-2 text-blue-400 mb-2">
+                  <Sparkles className="w-5 h-5" />
+                  <h4 className="font-semibold">Special Cards</h4>
+                </div>
+                <p className="text-white/70 text-sm">Use Skip, Reverse, and other special cards to outmaneuver opponents.</p>
+              </div>
+              
+              <div className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                <div className="flex items-center gap-2 text-purple-400 mb-2">
+                  <Trophy className="w-5 h-5" />
+                  <h4 className="font-semibold">Win Conditions</h4>
+                </div>
+                <p className="text-white/70 text-sm">Empty your hand first or have the lowest score when time runs out.</p>
+              </div>
+            </div> */}
+          </motion.div>
 
           {/* Element Expansion Note */}
           {/* <motion.div
@@ -510,7 +602,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
               whileTap={{ scale: 0.95 }}
             >
               <BookOpen className="w-6 h-6" />
-              QUICK LEARN
+              VS BOTS
             </motion.button>
 
             <motion.button
@@ -525,7 +617,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
           </motion.div>
 
           {/* Game Mode Descriptions */}
-          <motion.div
+          {/* <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 max-w-4xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -554,7 +646,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
                 game modes.
               </p>
             </div>
-          </motion.div>
+          </motion.div> */}
         </motion.section>
 
         {/* Live Stats Section - 3 Big Numbers */}
@@ -795,10 +887,15 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
               className="flex flex-col items-center gap-2"
               whileHover={{ scale: 1.1 }}
             >
-              <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
-                <span className="text-2xl font-bold text-white">CG</span>
+              <div className="w-16 h-16  rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20 overflow-hidden p-2">
+                <img
+                  src="/crazygames_logo.svg"
+                  alt="CrazyGames"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <span className="text-white/70 text-sm">CrazyGames</span>
+              <span className="text-xs text-white/50">Coming Soon</span>
             </motion.div>
 
             {/* PWA Install Button */}
@@ -808,7 +905,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
                 whileHover={{ scale: 1.1 }}
                 onClick={() => setShowPWAInstall(true)}
               >
-                <div className="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
+                <div className="w-16 h-16rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
                   <Download className="w-8 h-8 text-white" />
                 </div>
                 <span className="text-white/70 text-sm">Install App</span>
@@ -820,7 +917,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
                 className="flex flex-col items-center gap-2"
                 whileHover={{ scale: 1.1 }}
               >
-                <div className="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
                   <span className="text-green-400 text-2xl">✓</span>
                 </div>
                 <span className="text-white/70 text-sm">Installed</span>
@@ -831,8 +928,8 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
               className="flex flex-col items-center gap-2"
               whileHover={{ scale: 1.1 }}
             >
-              <div className="w-16 h-16 bg-purple-500/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
-                <Monitor className="w-8 h-8 text-white" />
+              <div className="w-16 h-16  rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
+                <Globe className="w-8 h-8 text-blue-200" />
               </div>
               <span className="text-white/70 text-sm">Browser</span>
             </motion.div>
@@ -842,8 +939,12 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
               className="flex flex-col items-center gap-2"
               whileHover={{ scale: 1.1 }}
             >
-              <div className="w-16 h-16 bg-gray-500/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
-                <Apple className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20 overflow-hidden p-3">
+                <img
+                  src="/appstore_logo.png"
+                  alt="App Store"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <span className="text-white/70 text-sm">App Store</span>
               <span className="text-xs text-white/50">Coming Soon</span>
@@ -853,8 +954,12 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
               className="flex flex-col items-center gap-2"
               whileHover={{ scale: 1.1 }}
             >
-              <div className="w-16 h-16 bg-green-600/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
-                <span className="text-2xl font-bold text-white">GP</span>
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20 overflow-hidden p-3">
+                <img
+                  src="/gplay_logo.png"
+                  alt="Google Play"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <span className="text-white/70 text-sm">Play Store</span>
               <span className="text-xs text-white/50">Coming Soon</span>
@@ -864,8 +969,12 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
               className="flex flex-col items-center gap-2"
               whileHover={{ scale: 1.1 }}
             >
-              <div className="w-16 h-16 bg-orange-500/20 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
-                <span className="text-2xl font-bold text-white">S</span>
+              <div className="w-16 h-16  rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20 overflow-hidden p-2">
+                <img
+                  src="/steam_logo.png"
+                  alt="Steam"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <span className="text-white/70 text-sm">Steam</span>
               <span className="text-xs text-white/50">Coming Soon</span>
