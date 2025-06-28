@@ -300,14 +300,24 @@ const HowToPlayContent: React.FC<HowToPlayContentProps> = ({ className = '' }) =
                         <p className="text-white/80 text-sm">Removes matching cards and weak elements from discard pile</p>
                       </div>
                     </div>
-  {/* Strike Card */}
+
+                    {/* Strike Card */}
                     <div className="flex items-center gap-4 p-4 bg-red-500/20 rounded-xl border border-red-400/30">
                       <Card card={sampleCards[8]} size="small" animate={false} />
                       <div>
                         <h5 className="font-bold text-white">Strike</h5>
-                        <p className="text-white/80 text-sm">Next player must draw 2 cards, counter with same element, or play another Strike</p>
+                        <p className="text-white/80 text-sm">
+                          Next player must draw 2 cards (from discard then draw pile), 
+                          counter with same/stronger element, or play a stronger Strike.
+                          Void cards can also counter.
+                        </p>
+                        <div className="mt-2 text-xs bg-black/30 p-2 rounded">
+                          <div className="font-semibold text-red-300">Element Hierarchy:</div>
+                          <div>🔥 Fire {'>'} 🌱 Plant {'>'} ⚡ Thunder {'>'} 💧 Water {'>'} 🔥</div>
+                        </div>
                       </div>
                     </div>
+
                     {/* Void Card */}
                     <div className="flex items-center gap-4 p-4 bg-gray-500/20 rounded-xl border border-gray-400/30">
                       <Card card={sampleCards[7]} size="small" animate={false} />
@@ -316,8 +326,6 @@ const HowToPlayContent: React.FC<HowToPlayContentProps> = ({ className = '' }) =
                         <p className="text-white/80 text-sm">Transfers discard pile to next player and changes color</p>
                       </div>
                     </div>
-
-                  
                   </div>
                 </div>
               </div>
