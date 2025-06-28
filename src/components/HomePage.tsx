@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+
+// Version is injected by Vite
+declare const __APP_VERSION__: string;
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
@@ -110,7 +113,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
             totalPlayersEver: 1247,
             totalMatchesPlayed: 8934,
             playersOnlineNow: Math.floor(
-              150 + Math.sin(Date.now() / 10000) * 50
+              150 + Math.sin(Date.now() / 10000) * 50,
             ),
           });
           return;
@@ -163,7 +166,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
 
   const handleQuickLearn = () => {
     // Navigate to vs-bot using React Router
-    navigate('/vs-bot');
+    navigate("/vs-bot");
   };
 
   const handleCustomGame = () => {
@@ -193,7 +196,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
 
     setNewsletterLoading(true);
     const { success } = await FeedbackService.subscribeToNewsletter(
-      email.trim()
+      email.trim(),
     );
 
     if (success) {
@@ -306,7 +309,14 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
               <Sparkles className="w-8 h-8 text-white" />
             </motion.div>
             <div>
-              <h1 className="text-4xl font-bold text-white">BOLTIS</h1>
+              <div className="flex items-baseline gap-2">
+                <h1 className="text-4xl font-bold text-white">BOLTIS</h1>
+                <div className="flex flex-col items-start">
+                  <span className="text-sm text-white/60">
+                    v{__APP_VERSION__}
+                  </span>
+                </div>
+              </div>
               <p className="text-white/80">Built using Bolt • Open Source</p>
               {/* try github link */}
             </div>

@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+set -e
+
+# Run lint-staged to format and check code
+npx lint-staged
+
+# Update version if there are changes
+npm run version:update

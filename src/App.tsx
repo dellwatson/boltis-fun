@@ -12,9 +12,9 @@ const TechBadges = () => (
       className="hover:scale-110 transition-transform duration-200"
     >
       <img
-        src="https://raw.githubusercontent.com/kickiniteasy/bolt-hackathon-badge/refs/heads/main/src/public/reddit/logo-color.svg"
+        src="/reddit.webp"
         alt="Join us on Reddit"
-        className="h-7 md:h-9 w-auto"
+        className="h-3 md:h-5 w-auto"
       />
     </a>
 
@@ -26,7 +26,7 @@ const TechBadges = () => (
       className="hover:scale-110 transition-transform duration-200"
     >
       <img
-        src="https://raw.githubusercontent.com/kickiniteasy/bolt-hackathon-badge/refs/heads/main/src/public/supabase/logo-color.svg"
+        src="/supabase.svg"
         alt="Powered by Supabase"
         className="h-7 md:h-9 w-auto"
       />
@@ -40,7 +40,7 @@ const TechBadges = () => (
       className="hover:scale-110 transition-transform duration-200"
     >
       <img
-        src="https://raw.githubusercontent.com/kickiniteasy/bolt-hackathon-badge/refs/heads/main/src/public/netlify/wordmark-color.svg"
+        src="/netlify.svg"
         alt="Deployed on Netlify"
         className="h-5 md:h-7 w-auto"
       />
@@ -54,7 +54,7 @@ const TechBadges = () => (
       className="hover:scale-110 transition-transform duration-200"
     >
       <img
-        src="https://raw.githubusercontent.com/kickiniteasy/bolt-hackathon-badge/refs/heads/main/src/public/bolt-badge/white_circle_360x360/white_circle_360x360.webp"
+        src="/white_circle_360x360.webp"
         alt="Built with Bolt"
         className="w-8 h-8 md:w-11 md:h-11 rounded-full"
       />
