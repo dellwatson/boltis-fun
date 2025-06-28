@@ -33,24 +33,11 @@ class ErrorBoundary extends Component<{
 
 import { GameModeConfig } from "./types/game";
 
-// Define HomePage props interface
-interface HomePageProps extends Record<string, unknown> {
-  onStartGame: (gameMode: GameModeConfig) => void;
-}
-
-// Lazy load pages for better performance with proper typing
-const HomePage = lazy(
-  () => import("./components/HomePage"),
-) as unknown as React.LazyExoticComponent<React.ComponentType<HomePageProps>>;
-const MatchPage = lazy(
-  () => import("./pages/MatchPage"),
-) as React.LazyExoticComponent<React.ComponentType>;
-const VsBotPage = lazy(
-  () => import("./pages/VsBotPage"),
-) as React.LazyExoticComponent<React.ComponentType>;
-const AccountPage = lazy(
-  () => import("./pages/AccountPage"),
-) as React.LazyExoticComponent<React.ComponentType>;
+// Lazy load pages
+const HomePage = lazy(() => import("./components/HomePage"));
+const MatchPage = lazy(() => import("./pages/MatchPage"));
+const VsBotPage = lazy(() => import("./pages/VsBotPage"));
+const AccountPage = lazy(() => import("./pages/AccountPage"));
 
 // Loading component
 const LoadingSpinner = () => (
@@ -88,91 +75,71 @@ const ErrorFallback = ({ message }: { message: string }) => (
   </div>
 );
 
-// Define props type for LazyRoute
-interface LazyRouteProps<T = Record<string, unknown>> {
-  element: React.ComponentType<T>;
-  errorMessage: string;
-  children?: React.ReactNode;
-  [key: string]: unknown;
-}
-
-// Wrapper component for lazy-loaded routes
-const LazyRoute = <T extends Record<string, unknown>>({
-  element: Element,
-  errorMessage,
-  children,
-  ...props
-}: LazyRouteProps<T>) => {
-  // Create props with correct type for the element
-  const elementProps = props as unknown as T;
-
-  return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <ErrorBoundary
-        fallback={
-          <ErrorFallback
-            message={
-              errorMessage ||
-              "An unexpected error occurred while loading this page."
-            }
-          />
-        }
-      >
-        {children || <Element {...elementProps} />}
-      </ErrorBoundary>
-    </Suspense>
-  );
-};
-
 // Create router configuration
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <LazyRoute<HomePageProps>
-        element={HomePage}
-        onStartGame={(gameMode: GameModeConfig) => {
-          console.log("Starting game with mode:", gameMode);
-          // The actual game start logic is handled by the HomePage component
-          // This is just a passthrough to satisfy the type system
-        }}
-        errorMessage="Failed to load the home page. Please try refreshing the page."
-      />
+      <Suspense fallback={<LoadingSpinner />}>
+        <ErrorBoundary
+          fallback={
+            <ErrorFallback message="Failed to load the home page. Please try refreshing the page." />
+          }
+        >
+          <HomePage
+            onStartGame={(gameMode: GameModeConfig) => {
+              console.log("Starting game with mode:", gameMode);
+              // The actual game start logic is handled by the HomePage component
+            }}
+          />
+        </ErrorBoundary>
+      </Suspense>
     ),
   },
   {
     path: "/vs-bot",
     element: (
-      <LazyRoute
-        element={VsBotPage}
-        errorMessage="Failed to load the bot game. Please try again later."
-      />
+      <Suspense fallback={<LoadingSpinner />}>
+        <ErrorBoundary
+          fallback={
+            <ErrorFallback message="Failed to load the bot game. Please try again later." />
+          }
+        >
+          <VsBotPage />
+        </ErrorBoundary>
+      </Suspense>
     ),
   },
   {
     path: "/match/:roomId",
     element: (
-      <LazyRoute
-        element={MatchPage}
-        errorMessage="Failed to load the match. Please check your connection and try again."
-      >
-        <ProtectedRoute>
-          <MatchPage />
-        </ProtectedRoute>
-      </LazyRoute>
+      <Suspense fallback={<LoadingSpinner />}>
+        <ErrorBoundary
+          fallback={
+            <ErrorFallback message="Failed to load the match. Please check your connection and try again." />
+          }
+        >
+          <ProtectedRoute>
+            <MatchPage />
+          </ProtectedRoute>
+        </ErrorBoundary>
+      </Suspense>
     ),
   },
   {
     path: "/account",
     element: (
-      <LazyRoute
-        element={AccountPage}
-        errorMessage="Failed to load your account. Please try again later."
-      >
-        <ProtectedRoute>
-          <AccountPage />
-        </ProtectedRoute>
-      </LazyRoute>
+      <Suspense fallback={<LoadingSpinner />}>
+        <ErrorBoundary
+          fallback={
+            <ErrorFallback message="Failed to load your account. Please try again later." />
+          }
+        >
+          <ProtectedRoute>
+            <AccountPage />
+          </ProtectedRoute>
+        </ErrorBoundary>
+      </Suspense>
     ),
   },
   {
