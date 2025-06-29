@@ -7,30 +7,31 @@ import { register, checkForUpdates } from "./utils/serviceWorker";
 // Initialize the app
 const root = createRoot(document.getElementById("root")!);
 
-// Register service worker in all environments
-register();
-
-// Check for updates when the app starts
+// Only register service worker in production
 if (import.meta.env.PROD) {
+  register();
+  
   // Check for updates immediately
   checkForUpdates();
 
   // Then check every 15 minutes
   setInterval(checkForUpdates, 15 * 60 * 1000);
+} else {
+  // In development, unregister any existing service workers
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      registrations.forEach(registration => registration.unregister());
+    });
+  }
 }
 
 // Add a custom event listener for service worker updates
 const AppWithSWUpdateListener = () => {
   useEffect(() => {
-    // Listen for the custom update event
+    // Listen for the custom update event and reload automatically
     const handleUpdate = () => {
-      if (
-        window.confirm(
-          "A new version is available! Would you like to update now?",
-        )
-      ) {
-        window.location.reload();
-      }
+      console.log('New version detected, reloading...');
+      window.location.reload();
     };
 
     window.addEventListener("sw-update", handleUpdate);

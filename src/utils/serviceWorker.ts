@@ -81,26 +81,23 @@ export const register = () => {
   }
 };
 
-// Show update notification to user
+// Automatically apply updates when available
 const showUpdateNotification = (registration: ServiceWorkerRegistration) => {
-  // You can replace this with a more sophisticated UI notification
-  if (
-    window.confirm("A new version is available! Would you like to update now?")
-  ) {
-    // Tell the service worker to skip waiting
-    if (registration.waiting) {
-      registration.waiting.postMessage({ type: "SKIP_WAITING" });
-    }
-
-    // Reload the page once the new service worker takes control
-    const reloadPage = () => window.location.reload();
-    navigator.serviceWorker.addEventListener("controllerchange", reloadPage, {
-      once: true,
-    });
-
-    // If the controllerchange event doesn't fire, reload after a timeout
-    setTimeout(reloadPage, 1000);
+  console.log('New version available, updating automatically...');
+  
+  // Tell the service worker to skip waiting
+  if (registration.waiting) {
+    registration.waiting.postMessage({ type: "SKIP_WAITING" });
   }
+
+  // Reload the page once the new service worker takes control
+  const reloadPage = () => window.location.reload();
+  navigator.serviceWorker.addEventListener("controllerchange", reloadPage, {
+    once: true,
+  });
+
+  // If the controllerchange event doesn't fire, reload after a timeout
+  setTimeout(reloadPage, 1000);
 };
 
 // Check for updates

@@ -142,7 +142,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
             totalPlayersEver: 1247,
             totalMatchesPlayed: 8934,
             playersOnlineNow: Math.floor(
-              150 + Math.sin(Date.now() / 10000) * 50,
+              150 + Math.sin(Date.now() / 10000) * 50
             ),
           });
           return;
@@ -225,7 +225,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
 
     setNewsletterLoading(true);
     const { success } = await FeedbackService.subscribeToNewsletter(
-      email.trim(),
+      email.trim()
     );
 
     if (success) {
@@ -905,10 +905,10 @@ const HomePage: React.FC<HomePageProps> = ({ onStartGame }) => {
                 whileHover={{ scale: 1.1 }}
                 onClick={() => setShowPWAInstall(true)}
               >
-                <div className="w-16 h-16rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-white/20">
                   <Download className="w-8 h-8 text-white" />
                 </div>
-                <span className="text-white/70 text-sm">Install App</span>
+                <span className="text-white/70 text-sm">Install PWA</span>
               </motion.div>
             )}
 
