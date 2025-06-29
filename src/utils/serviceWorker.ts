@@ -81,23 +81,55 @@ export const register = () => {
   }
 };
 
-// Automatically apply updates when available
+// Handle updates when available
 const showUpdateNotification = (registration: ServiceWorkerRegistration) => {
-  console.log('New version available, updating automatically...');
+  console.log('New version available, waiting for next navigation to update...');
   
-  // Tell the service worker to skip waiting
-  if (registration.waiting) {
-    registration.waiting.postMessage({ type: "SKIP_WAITING" });
-  }
-
-  // Reload the page once the new service worker takes control
-  const reloadPage = () => window.location.reload();
-  navigator.serviceWorker.addEventListener("controllerchange", reloadPage, {
-    once: true,
-  });
-
-  // If the controllerchange event doesn't fire, reload after a timeout
-  setTimeout(reloadPage, 1000);
+  // Store the registration for later use
+  let isUpdating = false;
+  
+  // Function to apply the update
+  const applyUpdate = () => {
+    if (isUpdating) return;
+    isUpdating = true;
+    
+    console.log('Applying update...');
+    
+    // Tell the service worker to skip waiting
+    if (registration.waiting) {
+      registration.waiting.postMessage({ type: "SKIP_WAITING" });
+    }
+    
+    // Only reload if we're not already on the home page
+    if (window.location.pathname !== '/') {
+      const reloadPage = () => window.location.reload();
+      
+      // Wait for the new service worker to take control
+      const onControllerChange = () => {
+        console.log('Controller changed, reloading...');
+        window.removeEventListener('controllerchange', onControllerChange);
+        reloadPage();
+      };
+      
+      navigator.serviceWorker.addEventListener('controllerchange', onControllerChange);
+      
+      // Fallback reload if controllerchange doesn't fire
+      setTimeout(reloadPage, 1000);
+    }
+  };
+  
+  // Apply update on next navigation or after 5 minutes
+  const onVisibilityChange = () => {
+    if (document.visibilityState === 'hidden') {
+      applyUpdate();
+    }
+  };
+  
+  // Apply update when the user navigates away or closes the tab
+  document.addEventListener('visibilitychange', onVisibilityChange, { once: true });
+  
+  // Also apply update after 5 minutes if user is still on the page
+  setTimeout(applyUpdate, 5 * 60 * 1000);
 };
 
 // Check for updates

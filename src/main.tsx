@@ -25,13 +25,13 @@ if (import.meta.env.PROD) {
   }
 }
 
-// Add a custom event listener for service worker updates
+// Handle service worker updates
 const AppWithSWUpdateListener = () => {
   useEffect(() => {
-    // Listen for the custom update event and reload automatically
+    // Listen for the custom update event
     const handleUpdate = () => {
-      console.log('New version detected, reloading...');
-      window.location.reload();
+      console.log('New version detected, will update on next navigation...');
+      // Don't reload immediately, let the service worker handle it
     };
 
     window.addEventListener("sw-update", handleUpdate);
