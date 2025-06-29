@@ -27,11 +27,7 @@
   },
   "simple-git-hooks": "^3.0.0",
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md,mdx,css,scss}": [
+    "*.{js,jsx,ts,tsx,json,md,mdx,css,scss}": [
       "prettier --write"
     ]
   },
